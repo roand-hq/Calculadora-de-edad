@@ -2,6 +2,7 @@ package rodrigo.hurtado.fechanac
 
 import android.os.Bundle
 import android.widget.CalendarView
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -27,24 +28,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val ahora = System.currentTimeMillis()
-        val dtpFecha = findViewById<CalendarView>(R.id.dtpFecha)
+        val dtpFecha = findViewById<DatePicker>(R.id.dtpFecha)
         val lbEdad = findViewById<TextView>(R.id.lbEdad)
 
 
         dtpFecha.maxDate = ahora
-        println(dtpFecha.date)
+        println(dtpFecha.year)
 
-        dtpFecha.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        dtpFecha.setOnDateChangedListener { view, year, month, dayOfMonth ->
 
             val mes = month + 1
-            val monthName = DateFormatSymbols().months[mes]
             val fechaNac = LocalDate.of(year,mes,dayOfMonth)
             val fechaAct = LocalDateTime.ofInstant(Instant.ofEpochMilli(ahora),ZoneId.systemDefault()).toLocalDate()
             val periodo = Period.between(fechaNac,fechaAct)
             val años = periodo.years
             val meses = periodo.months
             val dias = periodo.days
-            lbEdad.text = "Edad: $años años, $meses meses y $dias días"
+            lbEdad.text = "Edad: $años años, $meses mese(s) y $dias día(s)"
         }
 
     }
